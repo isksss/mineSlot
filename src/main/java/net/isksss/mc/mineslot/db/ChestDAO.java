@@ -59,7 +59,7 @@ public class ChestDAO {
         }
     }
     public int getChestIdByCoordinates(int x, int y, int z) {
-        int id = -1; // デフォルト値（見つからなかった場合の扱い）を設定
+        int id = -1; // default
 
         try (Connection connection = DriverManager.getConnection(Config.DB_URL);
              PreparedStatement statement = connection.prepareStatement(

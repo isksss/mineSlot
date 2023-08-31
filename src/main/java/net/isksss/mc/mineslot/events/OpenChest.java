@@ -46,15 +46,17 @@ public class OpenChest implements Listener {
                     p.sendMessage("Deleted Chest !!");
                     return;
                 }
-                // slotをプレイ
-                p.openInventory(inv);
-                p.addScoreboardTag(Config.CHEST_OPEN_TAG);
+                if(UserTags.contains(Config.CHEST_ADD_TAG)){
+                    p.sendMessage("Already registered.");
+                    return;
+                }
             }else{
                 //chestを登録するとき
                 if(UserTags.contains(Config.CHEST_ADD_TAG)){
                     event.setCancelled(true);
                     Chest c = new Chest(0,x_loc,y_loc,z_loc,10);
                     chestDAO.addChest(c);
+                    p.sendMessage("Add chests.");
                 }
             }
         }

@@ -38,7 +38,7 @@ public class DatabaseManager {
      * テーブルの存在を確認し、なかった場合は作成する。
      * @return result
      */
-    public boolean InitDatabase() {
+    public void InitDatabase() {
         boolean result = false;
         try {
             this.connect();
@@ -56,7 +56,7 @@ public class DatabaseManager {
         } finally {
             disconnect();
         }
-        return true;
+        return;
     }
 
     private void executeUpdate(String sql) throws SQLException {

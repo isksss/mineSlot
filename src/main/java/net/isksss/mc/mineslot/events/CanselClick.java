@@ -13,6 +13,7 @@ public class CanselClick implements Listener {
     public void onInventoryClick(InventoryClickEvent event){
         Set<String> UserTags = event.getWhoClicked().getScoreboardTags();
         if(UserTags.contains(Config.CHEST_OPEN_TAG)){
+            event.getWhoClicked().sendMessage("cansel");
             event.setCancelled(true);
         }
     }
