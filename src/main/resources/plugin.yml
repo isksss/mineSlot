@@ -1,0 +1,4 @@
+name: mineSlot
+version: '${version}'
+main: net.isksss.mc.mineslot.MineSlot
+api-version: '1.20'
