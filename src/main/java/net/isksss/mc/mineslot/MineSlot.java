@@ -7,14 +7,16 @@ import net.isksss.mc.mineslot.events.CanselClick;
 import net.isksss.mc.mineslot.events.InventoryClose;
 import net.isksss.mc.mineslot.events.OpenChest;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
 public final class MineSlot extends JavaPlugin {
-
+    public static Plugin plg;
     @Override
     public void onEnable() {
+        plg = this;
         // Plugin startup logic
         saveDefaultConfig();
         FileConfiguration config = getConfig();

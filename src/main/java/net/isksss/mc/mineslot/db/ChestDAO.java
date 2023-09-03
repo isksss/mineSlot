@@ -79,4 +79,29 @@ public class ChestDAO {
         }
         return id;
     }
+
+    public Chest getChestById(int id) {
+        Chest chest = null;
+
+        try (Connection connection = DriverManager.getConnection(Config.DB_URL);
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT * FROM chests WHERE id = ?")) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int xCoordinate = resultSet.getInt("x_coordinate");
+                int yCoordinate = resultSet.getInt("y_coordinate");
+                int zCoordinate = resultSet.getInt("z_coordinate");
+                int requiredLevel = resultSet.getInt("required_level");
+                chest = new Chest(id, xCoordinate, yCoordinate, zCoordinate, requiredLevel);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return chest;
+    }
+
 }

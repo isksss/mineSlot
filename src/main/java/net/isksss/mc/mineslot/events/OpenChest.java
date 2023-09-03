@@ -3,7 +3,7 @@ package net.isksss.mc.mineslot.events;
 import net.isksss.mc.mineslot.config.Config;
 import net.isksss.mc.mineslot.db.ChestDAO;
 import net.isksss.mc.mineslot.model.Chest;
-import net.isksss.mc.mineslot.utils.GuiMenu;
+import net.isksss.mc.mineslot.gui.GuiMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,10 +17,10 @@ import java.util.Set;
 
 public class OpenChest implements Listener {
     private final ChestDAO chestDAO;
-    private final GuiMenu gui;
+//    private final GuiMenu gui;
     public OpenChest() {
         this.chestDAO = new ChestDAO();
-        this.gui = new GuiMenu();
+//        this.gui = new GuiMenu();
     }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
@@ -37,8 +37,11 @@ public class OpenChest implements Listener {
             Set<String> UserTags = p.getScoreboardTags();
             if (chestId != -1) {
                 // チェストが登録されている場合の処理
+                Chest chest = chestDAO.getChestById(chestId);
+                GuiMenu gui = new GuiMenu(chest);
                 Inventory inv = gui.createSlotMenu();
 
+                int level = chest.getRequiredLevel();
                 // チェストを削除する場合
                 if(UserTags.contains(Config.CHEST_DELETE_TAG)){
                     event.setCancelled(true);
@@ -50,6 +53,10 @@ public class OpenChest implements Listener {
                     p.sendMessage("Already registered.");
                     return;
                 }
+
+                event.setCancelled(true);
+                p.openInventory(inv);
+                p.addScoreboardTag(Config.CHEST_OPEN_TAG);
             }else{
                 //chestを登録するとき
                 if(UserTags.contains(Config.CHEST_ADD_TAG)){

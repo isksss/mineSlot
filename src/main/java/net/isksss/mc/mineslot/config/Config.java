@@ -8,4 +8,12 @@ public class Config {
 
     public static final String CMD_BASE = "slot";
     public static final String CMD_ADD = "add";
+
+    public static final int SLOT_START_BUTTON = 46;
+
+    public static final String SLOT_PLAYING = "playing";
+
+    public static final int SLOT_LINE_INDEX_1 = 1;
+    public static final int SLOT_LINE_INDEX_2 = 2;
+    public static final int SLOT_LINE_INDEX_3 = 3;
 }
