@@ -16,7 +16,7 @@ public class GuiMenu {
 
     public GuiMenu(Chest chest){
         this.chest = chest;
-        this.frame = new ItemStack(Material.BLACK_STAINED_GLASS);
+        this.frame = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
     }
     public Inventory createSlotMenu(){
         int row = 6;
@@ -39,6 +39,8 @@ public class GuiMenu {
 
         // stop biuttohn
 //        this.setStopButton(inv);
+        // 掛け金の設定
+        createBetBottle(inv,chest);
 
         //リール配置
         Reel reel = new Reel(inv);
@@ -73,5 +75,15 @@ public class GuiMenu {
         inv.setItem(Config.SLOT_START_BUTTON,button);
     }
 
+    private void createBetBottle(Inventory inv, Chest chest){
+        //掛け金スロット
+        int index = 0;
+        ItemStack bottole = new ItemStack(Material.EXPERIENCE_BOTTLE);
+        ItemMeta meta = bottole.getItemMeta();
+        meta.setDisplayName(String.valueOf(chest.getRequiredLevel()));
+        bottole.setItemMeta(meta);
+
+        inv.setItem(index,bottole);
+    }
 
 }

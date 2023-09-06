@@ -20,7 +20,7 @@ public class Reel {
 
     private Inventory inv;
     private List<Material> materialList = new ArrayList<>();
-
+    private List<Integer> magnification = new ArrayList<>();
     private static List<SlotTask> tasks = new ArrayList<>();
 
     private Random rand;
@@ -32,12 +32,17 @@ public class Reel {
         this.inv = inv;
 
         //リール作成
-        materialList.add(Material.APPLE);
-        materialList.add(Material.BONE);
-        materialList.add(Material.DIAMOND);
-        materialList.add(Material.COAL);
-        materialList.add(Material.END_CRYSTAL);
-        materialList.add(Material.GOLDEN_CHESTPLATE);
+        setReel(Material.APPLE, 2);
+        setReel(Material.BONE,1);
+        setReel(Material.DIAMOND, 10);
+        setReel(Material.COAL, 1);
+        setReel(Material.END_CRYSTAL,200);
+        setReel(Material.GOLDEN_APPLE,20);
+    }
+
+    private void setReel(Material material, int mag){
+        materialList.add(material);
+        magnification.add(mag);
     }
 
     // リールの回転スタート
@@ -131,6 +136,8 @@ public class Reel {
         if(tasklist[0].isCancelled() && tasklist[1].isCancelled() && tasklist[2].isCancelled()){
             task.setDone(true);
             //ここであたり目チェック
+            int bet = checkReel(inv);
+            task.setReturnLevel(bet);
         }
 
     }
@@ -152,5 +159,26 @@ public class Reel {
     public void removeTask(String playerName){
         SlotTask task = getSlotTaskByPlayerName(playerName);
         tasks.remove(task);
+    }
+
+    public int getBet(Inventory inv){
+        ItemStack item = inv.getItem(0);
+        ItemMeta meta = item.getItemMeta();
+        String title = meta.getDisplayName();
+        return Integer.parseInt(title);
+    }
+
+    private int checkReel(Inventory inv){
+        int level = 0;
+        if( inv.getItem(21).getType() == inv.getItem(22).getType()  &&
+            inv.getItem(22).getType() == inv.getItem(23).getType()  ){
+        // 目がそろった時
+            level = getBet(inv);
+
+            int indexMaterial = materialList.indexOf(inv.getItem(21).getType());
+            level = magnification.get(indexMaterial);
+        }
+
+        return level;
     }
 }

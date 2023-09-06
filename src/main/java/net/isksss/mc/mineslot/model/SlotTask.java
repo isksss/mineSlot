@@ -8,6 +8,8 @@ public class SlotTask {
 
     private boolean done = false;
 
+    private int returnLevel = 0;
+
     public SlotTask(String userName, BukkitTask[] task) {
         this.userName = userName;
         this.task = task;
@@ -40,5 +42,13 @@ public class SlotTask {
     // task のセッター
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public int getReturnLevel() {
+        return returnLevel;
+    }
+
+    public void setReturnLevel(int returnLevel) {
+        this.returnLevel = returnLevel;
     }
 }
