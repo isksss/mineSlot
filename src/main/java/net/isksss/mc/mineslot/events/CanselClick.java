@@ -24,16 +24,28 @@ public class CanselClick implements Listener {
             Inventory inv;
             inv = event.getInventory();
             //スロット開始の場合
+            Reel reel = new Reel(inv);
             if(clickedSlot == Config.SLOT_START_BUTTON){
-                Reel reel = new Reel(inv);
+                if(!UserTags.contains(Config.SLOT_PLAYING)) {
+                    reel.StartReel();
+                    p.addScoreboardTag(Config.SLOT_PLAYING);
+                }
+            }else if(clickedSlot ==48 || clickedSlot == 49 || clickedSlot == 50){
                 //スロット停止処理
                 if(UserTags.contains(Config.SLOT_PLAYING)){
-                    p.removeScoreboardTag(Config.SLOT_PLAYING);
-                    reel.StopTask(p.getName());
-                    return;
+                    // slot number 追加
+                    // 0はサンプル
+                    // range: 0 - 2
+                    int line = clickedSlot - 48;
+                    reel.StopTask(p.getName(), line);
+
+                    if(reel.getSlotTaskByPlayerName(p.getName()).getDone()){
+                        p.sendMessage("end slot");
+                        reel.removeTask(p.getName());
+                        UserTags.remove(Config.SLOT_PLAYING);
+                    }
+
                 }
-                reel.StartReel();
-                p.addScoreboardTag(Config.SLOT_PLAYING);
             }
         }
     }

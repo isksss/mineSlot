@@ -6,6 +6,8 @@ public class SlotTask {
     private String userName;
     private BukkitTask[] task;
 
+    private boolean done = false;
+
     public SlotTask(String userName, BukkitTask[] task) {
         this.userName = userName;
         this.task = task;
@@ -29,5 +31,14 @@ public class SlotTask {
     // task のセッター
     public void setTask(BukkitTask[] task) {
         this.task = task;
+    }
+
+    public boolean getDone() {
+        return done;
+    }
+
+    // task のセッター
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }

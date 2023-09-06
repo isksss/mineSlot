@@ -47,7 +47,7 @@ public class Reel {
         BukkitTask task1 = goSlot(Config.SLOT_LINE_INDEX_1);
         BukkitTask task2 = goSlot(Config.SLOT_LINE_INDEX_2);
         BukkitTask task3 = goSlot(Config.SLOT_LINE_INDEX_3);
-        BukkitTask[] taskList = new BukkitTask[3];
+        BukkitTask[] taskList = {task1,task2,task3};
         SlotTask taskBean = new SlotTask(p.getName(),taskList);
 
         this.tasks.add(taskBean);
@@ -71,8 +71,8 @@ public class Reel {
         // リールごとの処理
         // 1,2,3で渡される
         int h_i = line + 11; // 12-14の番号
-        int m_i = h_i + 1;
-        int l_i = h_i + 2;
+        int m_i = h_i + 9;
+        int l_i = h_i + 18;
 
         ItemStack h = inv.getItem(h_i);
         ItemStack m = inv.getItem(m_i);
@@ -119,11 +119,20 @@ public class Reel {
         return null; // 該当するタスクが見つからない場合はnullを返す
     }
 
-    public void StopTask(String PlayerName){
+    public void StopTask(String PlayerName, int line){
         SlotTask task = getSlotTaskByPlayerName(PlayerName);
-        task.getTask().cancel();
+        BukkitTask[] tasklist = task.getTask();
 
-        tasks.remove(task);
+        if(!tasklist[line].isCancelled()){
+            tasklist[line].cancel();
+        }
+
+        //すべてのレーンがキャンセルされているか確認
+        if(tasklist[0].isCancelled() && tasklist[1].isCancelled() && tasklist[2].isCancelled()){
+            task.setDone(true);
+            //ここであたり目チェック
+        }
+
     }
 
     private void setStopButton(Inventory inv){
@@ -138,5 +147,10 @@ public class Reel {
 
             inv.setItem(index,button);
         }
+    }
+
+    public void removeTask(String playerName){
+        SlotTask task = getSlotTaskByPlayerName(playerName);
+        tasks.remove(task);
     }
 }
