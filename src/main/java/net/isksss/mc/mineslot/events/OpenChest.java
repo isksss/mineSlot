@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
 
@@ -60,10 +61,16 @@ public class OpenChest implements Listener {
             }else{
                 //chestを登録するとき
                 if(UserTags.contains(Config.CHEST_ADD_TAG)){
-                    event.setCancelled(true);
-                    Chest c = new Chest(0,x_loc,y_loc,z_loc,10);
-                    chestDAO.addChest(c);
-                    p.sendMessage("Add chests.");
+
+                    ItemStack offhand = p.getInventory().getItemInOffHand();
+                    if(offhand.getType() == Material.STICK){
+                        event.setCancelled(true);
+                        int bet = Integer.parseInt(offhand.getItemMeta().getDisplayName());
+                        Chest c = new Chest(0,x_loc,y_loc,z_loc,bet);
+                        chestDAO.addChest(c);
+                        p.sendMessage("Add chests.");
+                    }
+
                 }
             }
         }

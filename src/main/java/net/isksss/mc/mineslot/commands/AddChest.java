@@ -2,10 +2,13 @@ package net.isksss.mc.mineslot.commands;
 
 import net.isksss.mc.mineslot.config.Config;
 import net.isksss.mc.mineslot.model.Chest;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -46,6 +49,14 @@ public class AddChest  implements CommandExecutor {
             }
             p.addScoreboardTag(Config.CHEST_ADD_TAG);
             p.sendMessage("ON: ADD MODE.");
+
+            ItemStack stick = new ItemStack(Material.STICK);
+            ItemMeta meta = stick.getItemMeta();
+            String bet = args[1];
+            meta.setDisplayName(bet);
+            stick.setItemMeta(meta);
+            p.getInventory().addItem(stick);
+
             return true;
         }
 

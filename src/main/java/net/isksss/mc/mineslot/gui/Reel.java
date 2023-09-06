@@ -61,15 +61,16 @@ public class Reel {
     }
 
     private BukkitTask goSlot(int slot){
-
+        int speed = rand.nextInt(slot) + 1;
         return new BukkitRunnable(){
             @Override
             public void run(){
                 //スロットを回す処理
                 Reel reel = new Reel(inv);
+//                int speed = rand.nextInt(slot)+1;
                 reel.PlayingSlot(slot);
             }
-        }.runTaskTimer(MineSlot.plg,0, slot * 1);
+        }.runTaskTimer(MineSlot.plg,0, speed);
     }
 
     public void PlayingSlot(int line){
